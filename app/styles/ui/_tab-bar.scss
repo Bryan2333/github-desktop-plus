@@ -11,6 +11,10 @@
     padding: var(--spacing) 0;
   }
 
+  &.switch:not(.vertical) {
+    gap: var(--spacing);
+  }
+
   &-item {
     // Reset styles from global buttons
     border: none;
@@ -87,7 +91,10 @@
   }
 
   &.switch &-item {
-    cursor: pointer;
+    &,
+    * {
+      cursor: pointer;
+    }
 
     // Give each item equal space
     flex: 1;

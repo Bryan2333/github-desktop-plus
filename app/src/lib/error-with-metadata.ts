@@ -82,3 +82,11 @@ export class StashChangesError extends ErrorWithMetadata {
     })
   }
 }
+
+export class CreateRepositoryError extends ErrorWithMetadata {
+  public constructor(error: Error) {
+    super(error, {
+      gitContext: { kind: 'create-repository' },
+    })
+  }
+}
