@@ -41,6 +41,30 @@ This is a fork of [GitHub Desktop](https://desktop.github.com) for Linux with ad
 
 Simply install `github-desktop-plus-bin` from the AUR.
 
+### Fedora/RHEL/CentOS
+
+Add the repository to your system by creating a file `/etc/yum.repos.d/github-desktop-plus.repo` with the following content:
+
+```ini
+[github-desktop-plus]
+name=GitHub Desktop Plus
+baseurl=https://rpm.github-desktop.polrivero.com/
+enabled=1
+gpgcheck=0
+```
+
+Update the package list:
+
+```bash
+sudo dnf check-update
+```
+
+Then, install the package with:
+
+```bash
+sudo dnf install github-desktop
+```
+
 ### Other linux distros
 
 Download correct binary from the [releases page](https://github.com/pol-rivero/github-desktop-plus/releases/latest) and copy it to a directory in your `PATH`.
