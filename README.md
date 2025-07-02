@@ -41,27 +41,33 @@ This is a fork of [GitHub Desktop](https://desktop.github.com) for Linux with ad
 
 Simply install `github-desktop-plus-bin` from the AUR.
 
-### Fedora/RHEL/CentOS
+### Debian/Ubuntu
 
-Add the repository to your system by creating a file `/etc/yum.repos.d/github-desktop-plus.repo` with the following content:
+Create the repository file:
 
-```ini
-[github-desktop-plus]
-name=GitHub Desktop Plus
-baseurl=https://rpm.github-desktop.polrivero.com/
-enabled=1
-gpgcheck=0
+```bash
+echo "deb [arch=amd64 trusted=yes] https://deb.github-desktop.polrivero.com/ stable main" | sudo tee /etc/apt/sources.list.d/github-desktop-plus.list
 ```
 
-Update the package list:
+Update the package list and install:
+```bash
+sudo apt update
+sudo apt install github-desktop
+```
+
+
+### Fedora/RHEL/CentOS
+
+Create the repository file:
+
+```bash
+echo -e "[github-desktop-plus]\nname=GitHub Desktop Plus\nbaseurl=https://rpm.github-desktop.polrivero.com/\nenabled=1\ngpgcheck=0" | sudo tee /etc/yum.repos.d/github-desktop-plus.repo
+```
+
+Update the package list and install:
 
 ```bash
 sudo dnf check-update
-```
-
-Then, install the package with:
-
-```bash
 sudo dnf install github-desktop
 ```
 
@@ -315,6 +321,10 @@ Invertocat designs that include "logo" in the file title in the following
 folder: [logos](app/static/logos).
 
 GitHub® and its stylized versions and the Invertocat mark are GitHub's
+Trademarks or registered Trademarks. When using GitHub's logos, be sure to
+follow the GitHub [logo guidelines](https://github.com/logos).
+
+</details>
 Trademarks or registered Trademarks. When using GitHub's logos, be sure to
 follow the GitHub [logo guidelines](https://github.com/logos).
 

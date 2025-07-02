@@ -1,0 +1,23 @@
+{
+  "hosting": {
+    "public": ".",
+
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+
+    "headers": [
+      {
+        "source": "**/*.deb",
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/vnd.debian.binary-package"
+          }
+        ]
+      },
+      {
+        "source": "**/*.gz",
+        "headers": [{ "key": "Content-Type", "value": "application/x-gzip" }]
+      }
+    ]
+  }
+}
