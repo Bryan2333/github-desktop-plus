@@ -37,11 +37,11 @@ This is a fork of [GitHub Desktop](https://desktop.github.com) for Linux with ad
 
 ## Download and Installation
 
-### Arch Linux
+### Arch Linux / Manjaro
 
 Simply install `github-desktop-plus-bin` from the AUR.
 
-### Debian/Ubuntu
+### Debian / Ubuntu
 
 Create the repository file:
 
@@ -56,7 +56,7 @@ sudo apt install github-desktop
 ```
 
 
-### Fedora/RHEL/CentOS
+### Fedora / RHEL / CentOS
 
 Create the repository file:
 
