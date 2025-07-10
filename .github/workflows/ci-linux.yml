@@ -94,12 +94,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js 20.17.0
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.17.0
-          cache: yarn
-
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -326,6 +320,7 @@ jobs:
 
       - name: Prepare APT repository
         run: |
+          mkdir -p ./publish/deb
           cd ./publish/deb
           rm -rf pool dists
           mkdir -p pool/main \
@@ -350,21 +345,22 @@ jobs:
           # Create the Release file
           apt-ftparchive -o APT::FTPArchive::Release::Codename=stable release dists/stable > dists/stable/Release
 
-      - name: Set up Node.js (for Firebase CLI)
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
+      - name: Install s3cmd
+        run: sudo apt-get install -y s3cmd
 
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
+      - name: Configure s3cmd for Cloudflare R2
+        run: |
+          cat > ~/.s3cfg <<EOF
+          [default]
+          access_key = ${{ secrets.R2_ACCESS_KEY_ID }}
+          secret_key = ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          host_base = ${{ secrets.R2_ENDPOINT }}
+          host_bucket = ${{ secrets.R2_ENDPOINT }}
+          use_https = True
+          signature_v2 = False
+          EOF
 
-      - name: Create service account key
+      - name: Sync DEB repo to Cloudflare R2
         working-directory: ./publish/deb
         run: |
-          echo '${{ secrets.DEB_FIREBASE_SERVICE_ACCOUNT }}' > /tmp/firebase-service-account.json
-
-      - name: Deploy DEB repo to Firebase Hosting
-        working-directory: ./publish/deb
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: /tmp/firebase-service-account.json
-        run: firebase deploy --only hosting
+          s3cmd sync --delete-removed ./ s3://${{ secrets.R2_BUCKET }}/
