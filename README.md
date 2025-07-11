@@ -46,7 +46,7 @@ Simply install `github-desktop-plus-bin` from the AUR.
 Create the repository file:
 
 ```bash
-echo "deb [arch=amd64 trusted=yes] https://deb.github-desktop.polrivero.com/ stable main" | sudo tee /etc/apt/sources.list.d/github-desktop-plus.list
+echo "deb [trusted=yes] https://deb.github-desktop.polrivero.com/ stable main" | sudo tee /etc/apt/sources.list.d/github-desktop-plus.list
 ```
 
 Update the package list and install:

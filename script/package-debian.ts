@@ -61,6 +61,7 @@ const options: DebianOptions = {
   depends: [
     // Desktop-specific dependencies
     'libcurl3 | libcurl4',
+    'libcurl3-gnutls',
     'libsecret-1-0',
     'gnome-keyring',
   ],
