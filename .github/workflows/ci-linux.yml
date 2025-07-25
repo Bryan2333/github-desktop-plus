@@ -131,6 +131,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           name: GitHub Desktop Plus ${{ env.RELEASE_TAG_WITHOUT_PREFIX }}
+          body: |
+            Upstream: [GitHub Desktop ${{ env.RELEASE_TAG_WITHOUT_PREFIX }} release notes](https://github.com/desktop/desktop/releases/tag/release-${{ env.RELEASE_TAG_WITHOUT_PREFIX }})
           files: |
             artifacts/**/*.AppImage
             artifacts/**/*.deb
