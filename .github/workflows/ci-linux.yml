@@ -243,6 +243,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y createrepo-c
 
+      - name: Import GPG private key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "default-key $(gpg --list-keys --with-colons | grep pub | head -n1 | cut -d: -f5)" >> ~/.gnupg/gpg.conf
+
       - name: Prepare RPM repository
         run: |
           mkdir dist
@@ -288,6 +294,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y dpkg-dev apt-utils
 
+      - name: Import GPG private key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
+          echo "default-key $(gpg --list-keys --with-colons | grep pub | head -n1 | cut -d: -f5)" >> ~/.gnupg/gpg.conf
+
       - name: Prepare APT repository
         run: |
           mkdir dist
@@ -309,6 +321,10 @@ jobs:
 
           # Create the Release file
           apt-ftparchive -o APT::FTPArchive::Release::Codename=stable release dists/stable > dists/stable/Release
+
+          # Sign release file
+          gpg --batch --yes --pinentry-mode loopback --passphrase "${{ secrets.GPG_KEY_PASSPHRASE }}" --clearsign -o dists/stable/InRelease dists/stable/Release
+          gpg --batch --yes --pinentry-mode loopback --passphrase "${{ secrets.GPG_KEY_PASSPHRASE }}" --detach-sign -o dists/stable/Release.gpg dists/stable/Release
 
       - name: Install s3cmd
         run: sudo apt-get install -y s3cmd

@@ -46,7 +46,8 @@ Simply install `github-desktop-plus-bin` from the AUR.
 Create the repository file:
 
 ```bash
-echo "deb [trusted=yes] https://deb.github-desktop.polrivero.com/ stable main" | sudo tee /etc/apt/sources.list.d/github-desktop-plus.list
+wget -O- https://gpg.polrivero.com/public.key | sudo gpg --dearmor -o /usr/share/keyrings/polrivero.gpg
+echo "deb [signed-by=/usr/share/keyrings/polrivero.gpg] https://deb.github-desktop.polrivero.com/ stable main" | sudo tee /etc/apt/sources.list.d/github-desktop-plus.list
 ```
 
 Update the package list and install:
@@ -61,7 +62,8 @@ sudo apt install github-desktop
 Create the repository file:
 
 ```bash
-echo -e "[github-desktop-plus]\nname=GitHub Desktop Plus\nbaseurl=https://rpm.github-desktop.polrivero.com/\nenabled=1\ngpgcheck=0" | sudo tee /etc/yum.repos.d/github-desktop-plus.repo
+sudo rpm --import https://gpg.polrivero.com/public.key
+echo -e "[github-desktop-plus]\nname=GitHub Desktop Plus\nbaseurl=https://rpm.github-desktop.polrivero.com/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://gpg.polrivero.com/public.key" | sudo tee /etc/yum.repos.d/github-desktop-plus.repo
 ```
 
 Update the package list and install:
