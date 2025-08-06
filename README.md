@@ -41,6 +41,9 @@ This is a fork of [GitHub Desktop](https://desktop.github.com) for Linux with ad
 
 Simply install `github-desktop-plus-bin` from the AUR.
 
+> `gnome-keyring` is required and the daemon must be launched either at login or when the X server is started. Normally this is handled by a display manager, but in other cases following the instructions found on the [Arch Wiki](https://wiki.archlinux.org/index.php/GNOME/Keyring#Using_the_keyring_outside_GNOME) will fix the issue of not being able to save login credentials.
+
+
 ### Debian / Ubuntu
 
 Create the repository file:
@@ -83,7 +86,7 @@ Download correct binary from the [releases page](https://github.com/pol-rivero/g
 | **Fedora/RHEL** | `-linux-x86_64.rpm` | `-linux-arm64.rpm` | `-linux-armv7l.rpm` |
 | **AppImage (Universal)** | `-linux-x86_64.AppImage` | `-linux-arm64.AppImage` | `-linux-armv7l.AppImage` |
 
-### Windows:
+### Windows
 
 Download and execute the installer from the [releases page](https://github.com/pol-rivero/github-desktop-plus/releases/latest).
 
@@ -92,7 +95,7 @@ Download and execute the installer from the [releases page](https://github.com/p
 | **.EXE Installer** | `-win-x64.exe` | `-win-arm64.exe` |
 | **.MSI Installer** | `-win-x64.msi` | `-win-arm64.msi` |
 
-### macOS:
+### macOS
 
 Download the ZIP file from the [releases page](https://github.com/pol-rivero/github-desktop-plus/releases/latest) and extract it. To run the installer, execute the file `GitHub Desktop Plus.app/Contents/MacOS/GitHub Desktop`.
 
