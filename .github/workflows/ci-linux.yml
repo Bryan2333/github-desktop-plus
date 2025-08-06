@@ -238,10 +238,10 @@ jobs:
         with:
           path: './artifacts'
 
-      - name: Install createrepo_c
+      - name: Install createrepo_c and s3cmd
         run: |
           sudo apt-get update
-          sudo apt-get install -y createrepo-c
+          sudo apt-get install -y createrepo-c s3cmd
 
       - name: Import GPG private key
         run: |
@@ -257,9 +257,6 @@ jobs:
 
           find ../artifacts -type f -name "*.rpm" -exec cp {} Packages/ \;
           createrepo_c --update .
-
-      - name: Install s3cmd
-        run: sudo apt-get install -y s3cmd
 
       - name: Configure s3cmd for Cloudflare R2
         run: |
@@ -289,10 +286,10 @@ jobs:
         with:
           path: './artifacts'
 
-      - name: Install Debian repo tools
+      - name: Install Debian repo tools and s3cmd
         run: |
           sudo apt-get update
-          sudo apt-get install -y dpkg-dev apt-utils
+          sudo apt-get install -y dpkg-dev apt-utils s3cmd
 
       - name: Import GPG private key
         run: |
@@ -325,9 +322,6 @@ jobs:
           # Sign release file
           gpg --batch --yes --pinentry-mode loopback --passphrase "${{ secrets.GPG_KEY_PASSPHRASE }}" --clearsign -o dists/stable/InRelease dists/stable/Release
           gpg --batch --yes --pinentry-mode loopback --passphrase "${{ secrets.GPG_KEY_PASSPHRASE }}" --detach-sign -o dists/stable/Release.gpg dists/stable/Release
-
-      - name: Install s3cmd
-        run: sudo apt-get install -y s3cmd
 
       - name: Configure s3cmd for Cloudflare R2
         run: |
