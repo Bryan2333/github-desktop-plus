@@ -258,6 +258,9 @@ jobs:
           find ../artifacts -type f -name "*.rpm" -exec cp {} Packages/ \;
           createrepo_c --update .
 
+          # Sign release
+          gpg --batch --yes --pinentry-mode loopback --passphrase "${{ secrets.GPG_KEY_PASSPHRASE }}" --detach-sign -o repodata/repomd.xml.asc repodata/repomd.xml
+
       - name: Configure s3cmd for Cloudflare R2
         run: |
           cat > ~/.s3cfg <<EOF
