@@ -202,6 +202,8 @@ jobs:
             sed -i "s/\[\[VERSION_WITHOUT_V\]\]/$version_without_v/" $PKGBUILD_FILE
             desktop_file_sha256=$(sha256sum $AUR_DIR/github-desktop-plus.desktop | awk '{ print $1 }')
             sed -i "s/\[\[DESKTOP_FILE_SHA256\]\]/$desktop_file_sha256/" $PKGBUILD_FILE
+            launch_script_sha256=$(sha256sum $AUR_DIR/launch-app.sh | awk '{ print $1 }')
+            sed -i "s/\[\[LAUNCH_SCRIPT_SHA256\]\]/$launch_script_sha256/" $PKGBUILD_FILE
             x86_64_sha256=$(sha256sum artifacts/**/*-x86_64.deb | awk '{ print $1 }')
             sed -i "s/\[\[X86_64_SHA256\]\]/$x86_64_sha256/" $PKGBUILD_FILE
             aarch64_sha256=$(sha256sum artifacts/**/*-arm64.deb | awk '{ print $1 }')
@@ -233,7 +235,6 @@ jobs:
           assets: |
             ${{ env.AUR_DIR }}/.gitignore
             ${{ env.AUR_DIR }}/github-desktop-plus.desktop
-            ${{ env.AUR_DIR }}/build-pacman-package.patch
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
@@ -249,7 +250,6 @@ jobs:
           assets: |
             ${{ env.AUR_DIR }}/.gitignore
             ${{ env.AUR_DIR }}/github-desktop-plus.desktop
-            ${{ env.AUR_DIR }}/build-pacman-package.patch
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
