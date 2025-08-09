@@ -1,0 +1,55 @@
+diff --git a/script/electron-builder-linux.yml b/script/electron-builder-linux.yml
+index 77203eb0b4..24ea442320 100644
+--- a/script/electron-builder-linux.yml
++++ b/script/electron-builder-linux.yml
+@@ -1,4 +1,5 @@
+ artifactName: 'GitHubDesktop-${os}-${arch}-${version}.${ext}'
++compression: store
+ linux:
+   category: 'GNOME;GTK;Development'
+   packageCategory: 'GNOME;GTK;Development'
+@@ -11,5 +12,5 @@ linux:
+     # see https://github.com/shiftkey/desktop/issues/72 for more details
+     - x-scheme-handler/x-github-desktop-dev-auth
+   target:
+-    - AppImage
++    - pacman
+   maintainer: 'Pol Rivero<github-desktop-plus@polrivero.com>'
+diff --git a/script/package-electron-builder.ts b/script/package-electron-builder.ts
+index 2f56e73fba..395b9730e7 100644
+--- a/script/package-electron-builder.ts
++++ b/script/package-electron-builder.ts
+@@ -50,7 +50,7 @@ export async function packageElectronBuilder(): Promise<Array<string>> {
+     return Promise.reject(error)
+   }
+ 
+-  const appImageInstaller = `${distRoot}/GitHubDesktop-linux-*.AppImage`
++  const appImageInstaller = `${distRoot}/GitHubDesktop-linux-*.pacman`
+ 
+   const files = await globPromise(appImageInstaller)
+   if (files.length !== 1) {
+diff --git a/script/package.ts b/script/package.ts
+index 5c6085d4c0..2a6d6d3197 100644
+--- a/script/package.ts
++++ b/script/package.ts
+@@ -31,8 +31,6 @@ import { join } from 'path'
+ import { assertNonNullable } from '../app/src/lib/fatal-error'
+ 
+ import { packageElectronBuilder } from './package-electron-builder'
+-import { packageDebian } from './package-debian'
+-import { packageRedhat } from './package-redhat'
+ 
+ const distPath = getDistPath()
+ const productName = getProductName()
+@@ -223,10 +221,8 @@ async function packageLinux() {
+   }
+   try {
+     const files = await packageElectronBuilder()
+-    const debianPackage = await packageDebian()
+-    const redhatPackage = await packageRedhat()
+ 
+-    const installers = [...files, debianPackage, redhatPackage]
++    const installers = [...files]
+ 
+     console.log(`Installers created:`)
+     for (const installer of installers) {
