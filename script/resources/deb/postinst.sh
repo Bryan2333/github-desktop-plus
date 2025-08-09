@@ -2,8 +2,8 @@
 
 set -e
 
-PROFILE_D_FILE="/etc/profile.d/github-desktop.sh"
-INSTALL_DIR="/usr/lib/github-desktop"
+PROFILE_D_FILE="/etc/profile.d/github-desktop-plus.sh"
+INSTALL_DIR="/usr/lib/github-desktop-plus"
 CLI_DIR="$INSTALL_DIR/resources/app/static"
 
 case "$1" in
@@ -11,10 +11,10 @@ case "$1" in
       # add executable permissions for CLI interface
       chmod +x "$CLI_DIR"/github || :
       # check if this is a dev install or standard
-      if [ -f "$INSTALL_DIR/github-desktop-dev" ]; then
-	      BINARY_NAME="github-desktop-dev"
+      if [ -f "$INSTALL_DIR/github-desktop-plus-dev" ]; then
+	      BINARY_NAME="github-desktop-plus-dev"
       else
-	      BINARY_NAME="github-desktop"
+	      BINARY_NAME="github-desktop-plus"
       fi
       # create symbolic links to /usr/bin directory
       ln -f -s "$INSTALL_DIR"/$BINARY_NAME /usr/bin || :

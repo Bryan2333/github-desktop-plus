@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTALL_DIR="/usr/lib/github-desktop"
+INSTALL_DIR="/usr/lib/github-desktop-plus"
 CLI_DIR="$INSTALL_DIR/resources/app/static"
 
 # add executable permissions for CLI interface

@@ -97,7 +97,7 @@ export async function packageDebian(): Promise<string> {
   const installer = require('electron-installer-debian')
 
   await installer(options)
-  const installersPath = `${distRoot}/github-desktop*.deb`
+  const installersPath = `${distRoot}/github-desktop-plus*.deb`
 
   const files = await globPromise(installersPath)
 
