@@ -27,7 +27,7 @@ depends=(curl
 optdepends=('github-cli: CLI interface for GitHub'
             'hub: CLI interface for GitHub')
 makedepends=(python-setuptools
-             nodejs-lts-jod
+             'nodejs>=22'
              npm
              xorg-server-xvfb
              yarn)
@@ -77,7 +77,7 @@ package() {
         armv7h) suffix="armv7l" ;;
         *) echo "Unsupported architecture: $CARCH"; exit 1 ;;
     esac
-    cp -r --preserve=mode "dist/github-desktop-plus-linux-$suffix/"* "$pkgdir/opt/$pkgname/"
+    cp -r --preserve=mode "dist/github-desktop-plus-linux-$suffix/"* "$pkgdir/opt/${_pkgname}/"
 
     install -Dm0644 "$srcdir/${_pkgname}.desktop" "$pkgdir/usr/share/applications/${_pkgname}.desktop"
     cd "$pkgdir/opt/${_pkgname}/resources/app/static/logos"
