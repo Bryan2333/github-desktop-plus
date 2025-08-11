@@ -5,15 +5,16 @@
 # Contributor: Igor Petrov
 # Contributor: Jiawen Geng
 
-pkgname=github-desktop-plus
-pkgver=[[VERSION_WITHOUT_V]]
+_pkgname='github-desktop-plus'
+pkgname="${_pkgname}-git"
+pkgver=0
 pkgrel=1
-pkgdesc="Fork of GitHub Desktop with extra features and improvements."
+pkgdesc="Fork of GitHub Desktop with extra features and improvements. (git version)"
 arch=('x86_64' 'aarch64' 'armv7h')
 url="https://github.com/pol-rivero/github-desktop-plus"
 license=('MIT')
-provides=($pkgname)
-conflicts=($pkgname)
+provides=(${_pkgname})
+conflicts=(${_pkgname})
 depends=(curl
          git
          gtk3
@@ -30,18 +31,23 @@ makedepends=(python-setuptools
              npm
              xorg-server-xvfb
              yarn)
-source=("$pkgname::git+https://github.com/pol-rivero/github-desktop-plus.git#tag=v$pkgver"
+source=("$pkgname::git+https://github.com/pol-rivero/github-desktop-plus.git"
         'git+https://github.com/github/gemoji.git'
         'git+https://github.com/github/gitignore.git'
         'git+https://github.com/github/choosealicense.com.git'
         'launch-app.sh'
-        "$pkgname.desktop")
+        "${_pkgname}.desktop")
 sha256sums=('SKIP'
             'SKIP'
             'SKIP'
             'SKIP'
             '[[LAUNCH_SCRIPT_SHA256]]'
             '[[DESKTOP_FILE_SHA256]]')
+
+pkgver() {
+    cd "$srcdir/$pkgname"
+    echo "$(date +%Y%m%d).$(git rev-parse --short HEAD)"
+}
 
 prepare() {
     cd "$pkgname"
@@ -64,7 +70,7 @@ build() {
 
 package() {
     cd "$pkgname"
-    install -d "$pkgdir/opt/$pkgname"
+    install -d "$pkgdir/opt/${_pkgname}"
     case "$CARCH" in
         x86_64) suffix="x64" ;;
         aarch64) suffix="arm64" ;;
@@ -73,10 +79,10 @@ package() {
     esac
     cp -r --preserve=mode "dist/github-desktop-plus-linux-$suffix/"* "$pkgdir/opt/$pkgname/"
 
-    install -Dm0644 "$srcdir/$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
-    pushd "$pkgdir/opt/$pkgname/resources/app/static/logos"
-    install -Dm0644 "1024x1024.png" "$pkgdir/usr/share/icons/hicolor/1024x1024/apps/$pkgname.png"
-    install -Dm0644 "512x512.png" "$pkgdir/usr/share/icons/hicolor/512x512/apps/$pkgname.png"
-    install -Dm0644 "256x256.png" "$pkgdir/usr/share/icons/hicolor/256x256/apps/$pkgname.png"
-    install -Dm755 "$srcdir/launch-app.sh" "$pkgdir/usr/bin/$pkgname"
+    install -Dm0644 "$srcdir/${_pkgname}.desktop" "$pkgdir/usr/share/applications/${_pkgname}.desktop"
+    cd "$pkgdir/opt/${_pkgname}/resources/app/static/logos"
+    install -Dm0644 "1024x1024.png" "$pkgdir/usr/share/icons/hicolor/1024x1024/apps/${_pkgname}.png"
+    install -Dm0644 "512x512.png" "$pkgdir/usr/share/icons/hicolor/512x512/apps/${_pkgname}.png"
+    install -Dm0644 "256x256.png" "$pkgdir/usr/share/icons/hicolor/256x256/apps/${_pkgname}.png"
+    install -Dm755 "$srcdir/launch-app.sh" "$pkgdir/usr/bin/${_pkgname}"
 }

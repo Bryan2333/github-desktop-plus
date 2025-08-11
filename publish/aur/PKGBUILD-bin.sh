@@ -11,6 +11,8 @@ pkgdesc="Fork of GitHub Desktop with extra features and improvements. Binary rel
 arch=('x86_64' 'aarch64' 'armv7h')
 url="https://github.com/pol-rivero/github-desktop-plus"
 license=('MIT')
+provides=(${_pkgname})
+conflicts=(${_pkgname})
 depends=(
     'curl'
     'libcurl-gnutls'
@@ -23,16 +25,20 @@ depends=(
     'unzip'
 )
 optdepends=('hub: CLI interface for GitHub.')
-provides=(${_pkgname})
-conflicts=(${_pkgname})
-source=(${_pkgname}.desktop)
+source=(
+    "${_pkgname}.desktop"
+    'launch-app.sh'
+)
 
 _common_download_url="${url}/releases/download/v${pkgver}/GitHubDesktopPlus-v${pkgver}-linux"
 source_x86_64=(${_common_download_url}-x86_64.deb)
 source_aarch64=(${_common_download_url}-arm64.deb)
 source_armv7h=(${_common_download_url}-armhf.deb)
 
-sha256sums=('[[DESKTOP_FILE_SHA256]]')
+sha256sums=(
+    '[[DESKTOP_FILE_SHA256]]'
+    '[[LAUNCH_SCRIPT_SHA256]]'
+)
 sha256sums_x86_64=('[[X86_64_SHA256]]')
 sha256sums_aarch64=('[[AARCH64_SHA256]]')
 sha256sums_armv7h=('[[ARMV7H_SHA256]]')
@@ -50,6 +56,5 @@ package() {
     rm "${pkgdir}/usr/share/applications/github-desktop-plus.desktop"
     install -Dm644 "${_pkgname}.desktop" "${pkgdir}/usr/share/applications/${_pkgname}.desktop"
 
-    ln -sf "/opt/$_pkgname/github-desktop-plus" "${pkgdir}/usr/bin/$_pkgname"
-    rm "${pkgdir}/usr/bin/github-desktop-plus"
+    install -Dm755 "$srcdir/launch-app.sh" "$pkgdir/usr/bin/${_pkgname}"
 }
