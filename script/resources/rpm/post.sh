@@ -11,7 +11,8 @@ ln -f -s "$CLI_DIR"/github /usr/bin || :
 
 # https://github.com/shiftkey/desktop/issues/21
 if [ ! -f /usr/lib64/libcurl-gnutls.so.4 ]; then
-  ln -s /usr/lib64/libcurl.so.4 /usr/lib64/libcurl-gnutls.so.4
+  find "$INSTALL_DIR" -type f -executable -exec \
+    sed -i 's/libcurl-gnutls\.so\.4/libcurl.so.4\x00\x00\x00\x00\x00\x00\x00/g' {} \; 2>/dev/null || true
 fi
 
 exit 0
