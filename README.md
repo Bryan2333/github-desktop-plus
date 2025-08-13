@@ -56,7 +56,7 @@ echo "deb [signed-by=/usr/share/keyrings/polrivero.gpg] https://deb.github-deskt
 Update the package list and install:
 ```bash
 sudo apt update
-sudo apt install github-desktop
+sudo apt install github-desktop-plus
 ```
 
 
@@ -73,7 +73,7 @@ Update the package list and install:
 
 ```bash
 sudo dnf check-update
-sudo dnf install github-desktop
+sudo dnf install github-desktop-plus
 ```
 
 ### Other linux distros
