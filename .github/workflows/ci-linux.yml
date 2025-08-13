@@ -282,16 +282,28 @@ jobs:
         with:
           path: './artifacts'
 
-      - name: Install createrepo_c and s3cmd
+      - name: Install RPM package tools and s3cmd
         run: |
           sudo apt-get update
-          sudo apt-get install -y createrepo-c s3cmd
+          sudo apt-get install -y createrepo-c rpm s3cmd
 
-      - name: Import GPG private key
+      - name: Import GPG private key and configure RPM signing
         run: |
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
           echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
           echo "default-key $(gpg --list-keys --with-colons | grep pub | head -n1 | cut -d: -f5)" >> ~/.gnupg/gpg.conf
+
+          # https://unix.stackexchange.com/a/329107
+          echo "allow-preset-passphrase" >> ~/.gnupg/gpg-agent.conf
+          gpg-connect-agent reloadagent /bye
+
+          echo '%_signature gpg' >> ~/.rpmmacros
+          echo '%_gpg_name ${{ secrets.GPG_KEY_NAME }}' >> ~/.rpmmacros
+          echo '%_gpgbin /usr/bin/gpg' >> ~/.rpmmacros
+
+
+          KEYGRIP=$(gpg --list-keys --with-keygrip --with-colons | awk -F: -v name="${{ secrets.GPG_KEY_NAME }}" '$1=="grp"{kg=$10} $1=="uid" && index($10,name){print kg; exit}')
+          "$(gpgconf --list-dirs libexecdir)"/gpg-preset-passphrase --passphrase "${{ secrets.GPG_KEY_PASSPHRASE }}" --preset $KEYGRIP
 
       - name: Prepare RPM repository
         run: |
@@ -303,7 +315,12 @@ jobs:
           createrepo_c --update .
 
           # Sign release
-          gpg --batch --yes --pinentry-mode loopback --passphrase "${{ secrets.GPG_KEY_PASSPHRASE }}" --detach-sign -o repodata/repomd.xml.asc repodata/repomd.xml
+          gpg --batch --yes --detach-sign -o repodata/repomd.xml.asc repodata/repomd.xml
+
+          # Sign RPM packages
+          for rpm in Packages/*.rpm; do
+            rpm --addsign "$rpm"
+          done
 
       - name: Configure s3cmd for Cloudflare R2
         run: |
