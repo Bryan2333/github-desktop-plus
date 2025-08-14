@@ -49,9 +49,6 @@ package() {
     mv "${pkgdir}/usr/lib/github-desktop-plus/"* "${pkgdir}/opt/${_pkgname}/"
     rmdir "${pkgdir}/usr/lib/github-desktop-plus"
     rmdir "${pkgdir}/usr/lib"
-    mv "${pkgdir}/usr/share/doc/github-desktop-plus" "${pkgdir}/usr/share/doc/${_pkgname}"
-    mv "${pkgdir}/usr/share/lintian/overrides/github-desktop-plus" "${pkgdir}/usr/share/lintian/overrides/${_pkgname}"
-    find "${pkgdir}/usr/share/icons" -name 'github-desktop-plus.png' -execdir mv {} "${_pkgname}.png" \;
 
     rm "${pkgdir}/usr/share/applications/github-desktop-plus.desktop"
     install -Dm644 "${_pkgname}.desktop" "${pkgdir}/usr/share/applications/${_pkgname}.desktop"
