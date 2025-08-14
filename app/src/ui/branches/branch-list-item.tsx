@@ -7,7 +7,6 @@ import * as octicons from '../octicons/octicons.generated'
 import { HighlightText } from '../lib/highlight-text'
 import { dragAndDropManager } from '../../lib/drag-and-drop-manager'
 import { DragType, DropTargetType } from '../../models/drag-drop'
-import { TooltippedContent } from '../lib/tooltipped-content'
 import { RelativeTime } from '../relative-time'
 import classNames from 'classnames'
 
@@ -118,19 +117,15 @@ export class BranchListItem extends React.Component<
         onMouseUp={this.onMouseUp}
       >
         <Octicon className="icon" symbol={getIcon()} />
-        <TooltippedContent
-          className="name"
-          tooltip={name}
-          onlyWhenOverflowed={true}
-          tagName="div"
-        >
+        <div className="name">
           <HighlightText text={name} highlight={this.props.matches.title} />
-        </TooltippedContent>
+        </div>
         {authorDate && (
           <RelativeTime
             className="description"
             date={authorDate}
             onlyRelative={true}
+            tooltip={false}
           />
         )}
       </div>
