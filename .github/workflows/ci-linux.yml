@@ -311,16 +311,15 @@ jobs:
           cd dist
           mkdir Packages
 
+          # Copy and sign RPM packages
           find ../artifacts -type f -name "*.rpm" -exec cp {} Packages/ \;
-          createrepo_c --update .
-
-          # Sign release
-          gpg --batch --yes --detach-sign -o repodata/repomd.xml.asc repodata/repomd.xml
-
-          # Sign RPM packages
           for rpm in Packages/*.rpm; do
             rpm --addsign "$rpm"
           done
+
+          # Create and sign release
+          createrepo_c --update .
+          gpg --batch --yes --detach-sign -o repodata/repomd.xml.asc repodata/repomd.xml
 
       - name: Configure s3cmd for Cloudflare R2
         run: |
