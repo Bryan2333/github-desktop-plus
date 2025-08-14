@@ -43,7 +43,7 @@ sha256sums_x86_64=('[[X86_64_SHA256]]')
 sha256sums_aarch64=('[[AARCH64_SHA256]]')
 sha256sums_armv7h=('[[ARMV7H_SHA256]]')
 package() {
-    tar xf data.tar.xz -C "${pkgdir}"
+    tar --zstd -xf data.tar.zst -C "${pkgdir}"
     install -d "${pkgdir}/opt/${_pkgname}"
 
     mv "${pkgdir}/usr/lib/github-desktop-plus/"* "${pkgdir}/opt/${_pkgname}/"
