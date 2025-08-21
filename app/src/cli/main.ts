@@ -6,7 +6,7 @@ const run = (...args: Array<string>) => {
   function cb(e: unknown | null, stderr?: string) {
     if (e) {
       console.error(`Error running command ${args}`)
-      console.error(stderr ?? `${e}`)
+      console.error(stderr || `${e}`)
       process.exit(
         typeof e === 'object' && 'code' in e && typeof e.code === 'number'
           ? e.code
@@ -26,6 +26,8 @@ const run = (...args: Array<string>) => {
       .on('error', cb)
       .on('exit', code => (process.exitCode = code ?? process.exitCode))
       .unref()
+  } else if (process.platform === 'linux') {
+    execFile('/bin/github-desktop-plus', args, cb)
   } else {
     throw new Error('Unsupported platform')
   }
