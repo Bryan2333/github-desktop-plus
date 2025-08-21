@@ -45,6 +45,8 @@ This is an up-to-date fork of [GitHub Desktop](https://desktop.github.com) for L
 
 Simply install `github-desktop-plus-bin` from the AUR.
 
+You can also build from source by installing `github-desktop-plus` or `github-desktop-plus-git` from the AUR.
+
 > `gnome-keyring` is required and the daemon must be launched either at login or when the X server is started. Normally this is handled by a display manager, but in other cases following the instructions found on the [Arch Wiki](https://wiki.archlinux.org/index.php/GNOME/Keyring#Using_the_keyring_outside_GNOME) will fix the issue of not being able to save login credentials.
 
 
