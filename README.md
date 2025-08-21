@@ -1,6 +1,10 @@
 # GitHub Desktop Plus
 
-This is a fork of [GitHub Desktop](https://desktop.github.com) for Linux with additional features and improvements.
+This is an up-to-date fork of [GitHub Desktop](https://desktop.github.com) for Linux with additional features and improvements.
+
+<img src="docs/assets/github-desktop-plus-demo.webp" alt="Demo" style="max-width:1000px;">
+
+![Search commits](docs/assets/github-desktop-plus-demo-search.webp)
 
 ## Extra Features 
 
